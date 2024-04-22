@@ -8,8 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
@@ -26,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new JsonFile(this, this).execute(JSON_FILE);
+        //new JsonFile(this, this).execute(JSON_FILE);
 
         mountains = new ArrayList<>(Arrays.asList(
-                new Mountain("MatterHorn"),
+                new Mountain("Kebnekaise"),
                 new Mountain("Mont Blanc"),
                 new Mountain("Denali")
 
@@ -53,11 +58,21 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
+        new JsonTask(this).execute(JSON_URL);
     }
 
     @Override
     public void onPostExecute(String json) {
         Log.d("MainActivity", json);
+
+        Gson gson = new Gson();
+
+        Type type = new TypeToken<List<Mountain>>() {}.getType();
+        List<Mountain> listOfMountains = gson.fromJson(json, type);
+        for(Mountain mountain : listOfMountains){
+            items.add(new RecyclerViewItem(mountain.getName()));
+        }
+        adapter.notifyDataSetChanged();
     }
 
 }
