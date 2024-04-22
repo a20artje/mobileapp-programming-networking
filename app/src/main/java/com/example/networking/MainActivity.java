@@ -12,6 +12,9 @@ import java.util.Arrays;
 @SuppressWarnings("FieldCanBeLocal")
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
+    private RecyclerViewAdapter adapter;
+    private ArrayList<RecyclerViewItem> items;
+
     private final String JSON_URL = "HTTPS_URL_TO_JSON_DATA_CHANGE_THIS_URL";
     private final String JSON_FILE = "mountains.json";
 
@@ -22,14 +25,14 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         new JsonFile(this, this).execute(JSON_FILE);
 
-        ArrayList<RecyclerViewItem> items = new ArrayList<>(Arrays.asList(
+        items = new ArrayList<>(Arrays.asList(
                 new RecyclerViewItem("MatterHorn"),
                 new RecyclerViewItem("Mont Blanc"),
                 new RecyclerViewItem("Denali")
 
         ));
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
+        adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(RecyclerViewItem item) {
                 Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
