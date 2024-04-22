@@ -15,5 +15,8 @@ public class Mountain {
         this.height = height;
     }
 
+    public String getName(){
+        return name;
+    }
 
 }
