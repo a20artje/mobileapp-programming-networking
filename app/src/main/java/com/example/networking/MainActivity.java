@@ -2,6 +2,7 @@ package com.example.networking;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +28,16 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
                 new Mountain("Denali")
 
         ));
+
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListerner() {
+            @Override
+            public void OnClick(RecyclerViewItem item) {
+                Toast.makeText(MainActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 
     @Override
