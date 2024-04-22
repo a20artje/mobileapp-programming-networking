@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -27,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         new JsonFile(this, this).execute(JSON_FILE);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-
         mountains = new ArrayList<>(Arrays.asList(
                 new Mountain("MatterHorn"),
                 new Mountain("Mont Blanc"),
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         items = new ArrayList<>();
         for (Mountain mountain : mountains){
             items.add(new RecyclerViewItem(mountain.getName()));
+
         }
 
         adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
@@ -48,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             }
 
         });
+
+        RecyclerView view = findViewById(R.id.recycler_view);
+        view.setLayoutManager(new LinearLayoutManager(this));
+        view.setAdapter(adapter);
 
 
     }
