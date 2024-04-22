@@ -31,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //new JsonFile(this, this).execute(JSON_FILE);
-
         mountains = new ArrayList<>(Arrays.asList(
                 new Mountain("Kebnekaise"),
                 new Mountain("Mont Blanc"),

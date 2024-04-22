@@ -1,42 +1,55 @@
 
 # Rapport
 
-**Skriv din rapport här!**
-
-_Du kan ta bort all text som finns sedan tidigare_.
-
 ## Följande grundsyn gäller dugga-svar:
 
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
-
+- Jag la till en RecyclerView till activity_main
+- Jag skapade en RecyclerViewItem class som endast innehåller titel som variabel med en getter och setter
+- Jag skapade en Mountain class samt la till en arraylist med Mountain, och recycler view adapter som member variable i main activity
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
+    private RecyclerViewAdapter adapter;
+    private ArrayList<Mountain> mountains;
+```
+- I MainActivity lade jag till några mountains, konverterade dem och la till dem i items listan
+```
+        mountains = new ArrayList<>(Arrays.asList(
+                new Mountain("Kebnekaise"),
+                new Mountain("Mont Blanc"),
+                new Mountain("Denali")
+
+        ));
+
+        items = new ArrayList<>();
+        for (Mountain mountain : mountains){
+            items.add(new RecyclerViewItem(mountain.getName()));
+
+        }
+```
+- Jag skapade en RecyclerView.Adapter och en RecyclerView.Holder i en ny class RecyclerViewAdapter med hjälp av koden på dugga
+- Jag ändrade JSON URL:en till rätt address
+- Jag skapade en ny JSON task för att hämta filen
+```
+        new JsonTask(this).execute(JSON_URL);     
+```
+- Jag skrev kod för att parse:a JSON stringen samt lägga till listan till den existerande items listan
+- Jag notifierade sedan adaptern så att den kunde uppdatera Viewen
+```
+    public void onPostExecute(String json) {
+        Log.d("MainActivity", json);
+
+        Gson gson = new Gson();
+
+        Type type = new TypeToken<List<Mountain>>() {}.getType();
+        List<Mountain> listOfMountains = gson.fromJson(json, type);
+        for(Mountain mountain : listOfMountains){
+            items.add(new RecyclerViewItem(mountain.getName()));
+        }
+        adapter.notifyDataSetChanged();
     }
-}
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+- Nedan är bild på skärmen 
 
-![](android.png)
+![img_1.png](img_1.png)
 
-Läs gärna:
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
