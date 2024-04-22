@@ -2,26 +2,18 @@ package com.example.networking;
 
 public class RecyclerViewItem {
 
-    private String name;
-    private String location;
-    private int height;
+    private String title;
 
-    public RecyclerViewItem(String name){
-        this.name = name;
-    }
-
-    public RecyclerViewItem(String name, String location, int height){
-        this.name = name;
-        this.location = location;
-        this.height = height;
+    public RecyclerViewItem(String title){
+        this.title = title;
     }
 
 
     public String getTitle(){
-        return name;
+        return title;
     }
 
-    public void setTitle(String name){
-        this.name = name;
+    public void setTitle(String title){
+        this.title = title;
     }
 }
