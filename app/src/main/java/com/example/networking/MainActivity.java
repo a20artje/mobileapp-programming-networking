@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity implements JsonTask.JsonTaskListener {
 
     private RecyclerViewAdapter adapter;
+    private ArrayList<Mountain> mountains;
     private ArrayList<RecyclerViewItem> items;
 
     private final String JSON_URL = "HTTPS_URL_TO_JSON_DATA_CHANGE_THIS_URL";
@@ -25,12 +27,19 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
 
         new JsonFile(this, this).execute(JSON_FILE);
 
-        items = new ArrayList<>(Arrays.asList(
-                new RecyclerViewItem("MatterHorn"),
-                new RecyclerViewItem("Mont Blanc"),
-                new RecyclerViewItem("Denali")
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+
+        mountains = new ArrayList<>(Arrays.asList(
+                new Mountain("MatterHorn"),
+                new Mountain("Mont Blanc"),
+                new Mountain("Denali")
 
         ));
+
+        items = new ArrayList<>();
+        for (Mountain mountain : mountains){
+            items.add(new RecyclerViewItem(mountain.getName()));
+        }
 
         adapter = new RecyclerViewAdapter(this, items, new RecyclerViewAdapter.OnClickListener() {
             @Override
