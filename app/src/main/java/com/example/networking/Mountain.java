@@ -6,6 +6,10 @@ public class Mountain {
     private String location;
     private int height;
 
+    public Mountain(String name){
+        this.name = name;
+    }
+
     public Mountain(String name, String location, int height){
         this.name = name;
         this.location = location;
